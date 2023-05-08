@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { rejects } from 'assert';
 import axios from 'axios'
+import { getToken } from './auth';
 
 const http = axios.create({
     timeout: 30000,
@@ -13,6 +14,10 @@ const http = axios.create({
 
 http.interceptors.request.use(request => {
     // console.log(request);
+    const token = getToken()
+    if (token) {
+        request.headers['Authorization'] = `Bearer ${token}`
+    }
     return request
 })
 
