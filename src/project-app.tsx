@@ -15,12 +15,10 @@ const ProjectApp = () => {
     <Container>
       <PageHeader />
       <Main>
-        <BrowserRouter>
           <Routes>
             <Route path={"/projects"} element={<ProjectList />}></Route>
             <Route path="/" element={<Navigate to="/projects" />} />
           </Routes>
-        </BrowserRouter>
       </Main>
     </Container>
   );

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import React, { useEffect, useState } from "react";
-import { Button, Card, Divider, Input, Typography } from "antd";
+import React, { useState } from "react";
+import { Button,Input } from "antd";
 import IdSelect from "components/id-select";
 import { SelectUser, TableListType } from "types/project";
 import { useRequest } from "ahooks";
@@ -8,27 +8,28 @@ import { getSelectUser, getTableList } from "requst/project";
 import TableList from "./TableList/TableList";
 import { useUrlQueryParam } from "hooks/project/project";
 const ProjectListScreen = () => {
-  const [inputValue, setInputValue] = useState("");
-  const [urlParams,setUrlParams] = useUrlQueryParam(['name,personId'])
-  console.log(urlParams );
-  
-  const handlerChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+  const [urlParams,setUrlParams] = useUrlQueryParam(['name','personId'])
+  const handlerChangeInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    await setUrlParams({
+      name: e.target.value
+    });
+    refresh()
   };
-  const { loading:tableLoading, data:tableList } = useRequest(() =>
-    getTableList({ name: undefined, personId: undefined })
-  );
-  
+  const { loading:tableLoading, data:tableList,refresh } = useRequest(() => getTableList({ name: urlParams.name, personId: urlParams.personId }))
   const {data:userList} = useRequest(()=> getSelectUser())
 
 
-  const handlerSelectChange = (value: any) => {
-    console.log(value);
+  const handlerSelectChange = async (value: any) => {
+    await setUrlParams({
+      personId: value
+    })
+    refresh()
     
   }
 
   return (
     <Container>
+
       <ProjectTitle>
         <h1>项目列表</h1>
         <Button type="link">创建项目</Button>
@@ -37,10 +38,9 @@ const ProjectListScreen = () => {
       <ProjectScreen>
         <Input
           className="screen-input"
-          value={inputValue}
-          onChange={handlerChangeInput}
-        ></Input>
-        <IdSelect className="select" options={userList?.data} onChange={(e) => handlerSelectChange(e)} defaultOptionName="负责人"></IdSelect>
+          value={urlParams.name}
+          onChange={handlerChangeInput}></Input>
+        <IdSelect className="select" options={userList?.data} onChange={(e) => handlerSelectChange(e)} defaultOptionName="负责人" value={urlParams.personId || 0}></IdSelect>
       </ProjectScreen>
 
       <TableList dataSource={(tableList?.data as TableListType[]) || []} users={userList?.data as SelectUser[] || []} loading={tableLoading}></TableList>
