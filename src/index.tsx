@@ -12,6 +12,8 @@ import {
   Navigate,
   BrowserRouter,
 } from "react-router-dom";
+import {store} from './redux-toolkit'
+import { Provider } from "react-redux";
 // import { AppProviders } from "context";
 // import { Profiler } from "components/profiler";
 
@@ -19,12 +21,14 @@ loadServer(() =>
   ReactDOM.render(
     // <React.StrictMode>
     //   <Profiler id={"Root App"} phases={["mount"]}>
+    <Provider store={store}>
     <BrowserRouter>
       <AuthProvider>
         <DevTools />
         <App />
       </AuthProvider>
-    </BrowserRouter>,
+    </BrowserRouter>
+    </Provider>,
     //   </Profiler>
     // </React.StrictMode>,
     document.getElementById("root")

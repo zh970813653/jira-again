@@ -7,8 +7,12 @@ import { useRequest } from "ahooks";
 import { getSelectUser, getTableList } from "requst/project";
 import TableList from "./TableList/TableList";
 import { useUrlQueryParam } from "hooks/project/project";
+import ProjectModal from "./ProjectModal/ProjectModal";
+import { useDispatch } from "react-redux";
+import { projectActions } from "redux-toolkit/actions/project-action";
 const ProjectListScreen = () => {
   const [urlParams,setUrlParams] = useUrlQueryParam(['name','personId'])
+  const dispatch = useDispatch()
   const handlerChangeInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     await setUrlParams({
       name: e.target.value
@@ -29,10 +33,9 @@ const ProjectListScreen = () => {
 
   return (
     <Container>
-
       <ProjectTitle>
         <h1>项目列表</h1>
-        <Button type="link">创建项目</Button>
+        <Button type="link" onClick={()=>dispatch(projectActions.handlerOpenModal())}>创建项目</Button>
       </ProjectTitle>
 
       <ProjectScreen>
@@ -44,6 +47,8 @@ const ProjectListScreen = () => {
       </ProjectScreen>
 
       <TableList dataSource={(tableList?.data as TableListType[]) || []} users={userList?.data as SelectUser[] || []} loading={tableLoading}></TableList>
+
+      <ProjectModal />
     </Container>
   );
 };
