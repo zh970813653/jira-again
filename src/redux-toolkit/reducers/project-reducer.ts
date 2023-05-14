@@ -8,7 +8,6 @@ export const projectSlice = createSlice({
     },
     reducers: {
         handlerOpenModal(state){
-            debugger
             state.modalStatus = true
         },
         handlerCloseModal(state) {

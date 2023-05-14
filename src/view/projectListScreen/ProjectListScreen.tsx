@@ -46,7 +46,7 @@ const ProjectListScreen = () => {
         <IdSelect className="select" options={userList?.data} onChange={(e) => handlerSelectChange(e)} defaultOptionName="负责人" value={urlParams.personId || 0}></IdSelect>
       </ProjectScreen>
 
-      <TableList dataSource={(tableList?.data as TableListType[]) || []} users={userList?.data as SelectUser[] || []} loading={tableLoading}></TableList>
+      <TableList dataSource={(tableList?.data as TableListType[]) || []} users={userList?.data as SelectUser[] || []} loading={tableLoading} refresh={refresh}></TableList>
 
       <ProjectModal />
     </Container>

@@ -24,3 +24,11 @@ export const getSelectUser = (): AxiosPromise<SelectUser[]> => {
         method:'get',
     }) 
 }
+
+export const editProject = (params?: Partial<TableListType>) => {
+    return http({
+        url: `projects/${params?.id}`,
+        method:'PATCH',
+        data: params
+    })
+}

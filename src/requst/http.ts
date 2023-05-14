@@ -22,17 +22,6 @@ http.interceptors.request.use(request => {
 })
 
 http.interceptors.response.use(response => {
-    // console.log(response,'response');
-    
-    // debugger
-    // // if (response.data.status === 400) {
-    // //     return response.data
-    // // }
-    // if (response.data.status !== 200) {
-    //     debugger
-    //     message.error(response.data.error)
-    //     return response.data
-    // }
     return response
 },rejects => {
     // console.dir(rejects);
